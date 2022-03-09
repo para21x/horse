@@ -1,0 +1,55 @@
+#include <iostream>
+using namespace std;
+
+int k = 8;
+int desk[8][8];
+int step[8][2] = { {1,-2}, {2,-1}, {2,1}, {1,2}, {-1,2}, {-2,1}, {-2,-1}, {-1,-2} };
+int n;
+
+void print_desk()
+{
+	for (int i = 0; i < k; i++)
+	{
+		for (int j = 0; j < k; j++)
+			cout << desk[i][j] << "  ";
+
+		cout << endl;
+	}
+}
+
+bool set_horse(int x, int y)
+{
+	system("cls");
+	print_desk();
+	if ((x < 0) || (x >= k) || (y < 0) || (y >= k))
+		return false;
+
+	if (desk[x][y] != 0)
+		return false;
+
+	n++;
+	desk[x][y] = n;
+
+	if (n == k * k)
+		return true;
+
+	for (int i = 0; i < 8; i++)
+		if (set_horse(x + step[i][0], y + step[i][1]))
+			return true;
+	n--;
+	desk[x][y] = 0;
+
+	return false;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "RUSSIAN");
+	n = 0;
+	for (int i = 0; i < k; i++)
+		for (int j = 0; j < k; j++)
+			desk[i][j] = 0;
+	set_horse(0, 0);
+	print_desk();
+	system("pause");
+}
